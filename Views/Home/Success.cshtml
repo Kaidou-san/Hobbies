@@ -1,0 +1,36 @@
+@model User
+
+<h1>Hobbies!</h1>
+<a href="logout">logout</a> |
+<table class="table table-striped">
+    <tr>
+        <th>Name</th>
+        <th>Enthusiants</th>
+        <th>Add To Hobbies</th>
+        
+    </tr>
+    @{
+        foreach (Hobby h in ViewBag.AllHobbies)
+        {
+            <tr>
+                <td><a href="/hobby/@h.HobbyId">@h.HobbyName</a></td>
+                <td>@h.UserWhoLikes.Count</td>
+                <td>@{
+                    if(h.UserWhoLikes.Any(a => a.UserId == ViewBag.User.UserId))
+                    {
+                        <a href="/Unlike/@ViewBag.User.UserId/@h.HobbyId"><img src="~/images/fullheart.png" alt="Like"/></a>
+                    }else{
+                        <a href="/Like/@ViewBag.User.UserId/@h.HobbyId"><img src="~/images/emptyheart.png" alt="Unlike"/></a>
+                    }
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>
+<a href="addHobby">Create Hobby</a>
+<h4>Add a Category to a the Database!</h4>
+<form action="addCatToDb" method="post">
+    <input type="text" name="CategoryName" class="form-control">
+    <input type="submit" value="Add" class="btn btn-primary">
+</form>
